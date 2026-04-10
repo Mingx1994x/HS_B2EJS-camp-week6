@@ -27,6 +27,13 @@ async function getProducts() {
 	// 1. 使用 fetch() 發送 GET 請求
 	// 2. 使用 response.json() 解析回應
 	// 3. 回傳 data.products
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/products`)
+		const data = await res.json()
+		return data.products
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 /**
@@ -35,6 +42,17 @@ async function getProducts() {
  */
 async function getCart() {
 	// 請實作此函式
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`)
+		const { carts, total, finalTotal } = await res.json()
+		return {
+			carts,
+			total,
+			finalTotal
+		}
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 /**
@@ -48,6 +66,19 @@ async function getProductsSafe() {
 	// 2. 檢查 response.ok 判斷是否成功
 	// 3. 成功回傳 { success: true, data: [...] }
 	// 4. 失敗回傳 { success: false, error: '錯誤訊息' }
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/products`)
+		const { status, products } = await res.json()
+		return {
+			success: status,
+			data: products
+		}
+	} catch (error) {
+		return {
+			success: error.status,
+			error: error.message
+		}
+	}
 }
 
 // ========================================
@@ -109,13 +140,13 @@ async function clearCart() {
 請回答以下問題（可以寫在這裡或另外繳交）：
 
 1. HTTP 狀態碼的分類（1xx, 2xx, 3xx, 4xx, 5xx 各代表什麼）
-   答：
+	 答：
 
 2. GET、POST、PATCH、PUT、DELETE 的差異
-   答：
+	 答：
 
 3. 什麼是 RESTful API？
-   答：
+	 答：
 
 
 */
