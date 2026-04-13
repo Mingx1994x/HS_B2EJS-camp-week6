@@ -98,6 +98,17 @@ async function addToCart(productId, quantity) {
 	// 2. body 格式：{ data: { productId: "xxx", quantity: 1 } }
 	// 3. 記得設定 headers: { 'Content-Type': 'application/json' }
 	// 4. body 要用 JSON.stringify() 轉換
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+			method: "POST",
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ data: { productId, quantity } })
+		})
+
+		return await res.json()
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 /**
@@ -111,6 +122,17 @@ async function updateCartItem(cartId, quantity) {
 	// 提示：
 	// 1. 發送 PATCH 請求
 	// 2. body 格式：{ data: { id: "購物車ID", quantity: 數量 } }
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+			method: "PATCH",
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ data: { id: cartId, quantity } })
+		})
+
+		return await res.json()
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 /**
@@ -121,6 +143,15 @@ async function updateCartItem(cartId, quantity) {
 async function removeCartItem(cartId) {
 	// 請實作此函式
 	// 提示：發送 DELETE 請求到 /carts/{id}
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts/${cartId}`, {
+			method: "DELETE",
+		})
+
+		return await res.json()
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 /**
@@ -130,6 +161,15 @@ async function removeCartItem(cartId) {
 async function clearCart() {
 	// 請實作此函式
 	// 提示：發送 DELETE 請求到 /carts
+	try {
+		const res = await fetch(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/carts`, {
+			method: "DELETE",
+		})
+
+		return await res.json()
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 // ========================================
@@ -141,14 +181,24 @@ async function clearCart() {
 
 1. HTTP 狀態碼的分類（1xx, 2xx, 3xx, 4xx, 5xx 各代表什麼）
 	 答：
+	- 1xx：請求已接收，處理中
+	- 2xx：請求成功
+	- 3xx：需要進一步操作
+	- 4xx：用戶端錯誤，請求有問題
+	- 5xx：伺服器錯誤，伺服器處理失敗
 
 2. GET、POST、PATCH、PUT、DELETE 的差異
 	 答：
+	- GET：取得資料（不會改變資料）
+	- POST：新增資料
+	- PUT：更新整筆資料（通常是整個覆蓋）
+	- PATCH：部分更新資料（只改某些欄位）
+	- DELETE：刪除資料
 
 3. 什麼是 RESTful API？
-	 答：
-
-
+	 答： 
+	 RESTful API 是一種 API 設計風格，
+	 使用 HTTP 方法來操作資源，並透過 URL 表示資源路徑，讓 API 結構清楚且具一致性。
 */
 
 // ========================================
